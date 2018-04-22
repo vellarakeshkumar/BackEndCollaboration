@@ -1,0 +1,8 @@
+org\collaborative\service\UserService.class
+org\collaborative\config\Initializer.class
+org\collaborative\config\WebConfig.class
+org\collaborative\service\UserServiceImpl.class
+org\collaborative\model\BlogUserDetail.class
+org\collaborative\config\DataBaseConfiguration.class
+org\collaborative\dao\UserDAO.class
+org\collaborative\dao\UserDAOImpl.class
