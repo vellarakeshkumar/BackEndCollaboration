@@ -54,9 +54,6 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
 		sessionBuilder.addAnnotatedClasses(BlogUserDetail.class);
-	
-		
-		
 		logger.info("========Hibernate SessionFactory Object created=========== ");
 		return sessionBuilder.buildSessionFactory();
 

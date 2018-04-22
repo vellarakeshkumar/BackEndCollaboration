@@ -6,10 +6,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-//@EnableWebMvc //<mvc:annotation-driven>
+@EnableWebMvc //<mvc:annotation-driven>
 @ComponentScan(basePackages="org.collaborative") //<context:component-scan>
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter{

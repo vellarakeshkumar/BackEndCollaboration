@@ -1,7 +1,6 @@
 package org.collaborative.test;
 
 import static org.junit.Assert.assertEquals;
-
 import org.collaborative.config.DataBaseConfiguration;
 import org.collaborative.dao.UserDAO;
 import org.collaborative.model.BlogUserDetail;
@@ -26,6 +25,7 @@ public class UserDAOTest {
 
 @SuppressWarnings("resource")
 @BeforeClass
+
 @Ignore
 public static void initialize()
 {
@@ -33,8 +33,6 @@ public static void initialize()
 	context.register(DataBaseConfiguration.class);
 	context.scan("org.collaborative.*");
 	context.refresh();
-
-	
 	blogUserDetail = (BlogUserDetail) context.getBean("blogUserDetail");
 	userDAO = (UserDAO) context.getBean("userDAO");
 }
@@ -44,15 +42,31 @@ public static void initialize()
 @Ignore
 public void createUser()
 {
-	blogUserDetail.setFirstName("Ravi");
+	blogUserDetail.setFirstName("Rakesh");
 	blogUserDetail.setLastName("kumar");
-	blogUserDetail.setEmail("ravi@gmail.com");
+	blogUserDetail.setEmail("Rakes@gmail.com");
 	blogUserDetail.setPassword("pass");
 	blogUserDetail.setEnabled(true);
 	blogUserDetail.setOnline(true);
-	blogUserDetail.setPhone("545653");
+	blogUserDetail.setPhone("656586");
 	boolean flag=userDAO.saveUser(blogUserDetail);
 	assertEquals("createUserTestCase", true, flag);
+
+}
+
+
+@Test
+public void fetchAllUser()
+{
+	  /* List<BlogUserDetail> users = userDAO.userList();
+       Assert.assertEquals(blogUserDetail.getEmail(), users.get(0).getEmail());
+	*/
+		int noofuser=userDAO.userList().size();
+		assertEquals("getAllUserTestCase", noofuser);
+	
+	
+
+	
 
 }
 

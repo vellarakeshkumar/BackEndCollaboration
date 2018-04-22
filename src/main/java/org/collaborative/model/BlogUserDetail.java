@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name="Collab_UserDetails")
-@Component
+@Component//auto-scanned-blogUserDetails
 public class BlogUserDetail {
 	
 	@Id
