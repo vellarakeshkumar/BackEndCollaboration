@@ -2,12 +2,13 @@ package org.collaborative.dao;
 
 import java.util.List;
 
-import org.collaborative.model.BlogUserDetail;
+import org.collaborative.model.*;
 
 public interface UserDAO {
 	
-	public boolean saveUser(BlogUserDetail userDetail);
+	public boolean saveUser(User userDetail);
 	
-	public List<BlogUserDetail>userList();
+	public List<User>userList();
+	public boolean isEmailValid(String email);
 
 }

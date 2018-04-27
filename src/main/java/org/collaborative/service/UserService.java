@@ -1,8 +1,15 @@
 package org.collaborative.service;
 
-import org.collaborative.model.BlogUserDetail;
+import java.util.List;
 
+import org.collaborative.model.User;
 
 public interface UserService {
-	public boolean saveUser(BlogUserDetail userDetail);
+
+	public boolean saveUser(User userDetail);
+	
+	public List<User>userList();
+	public boolean isEmailValid(String email);
+
+
 }

@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
+
 import org.collaborative.model.BlogUserDetail;
+import org.collaborative.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
 	SessionFactory sessionFactory;
 
 
-	public boolean saveUser(BlogUserDetail userDetail) {
+	public boolean saveUser(User userDetail) {
 		
 		try {
 		Session session=sessionFactory.openSession();
@@ -45,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
 
 
 
-	public List<BlogUserDetail> userList() {
+	public List<User> userList() {
 		 // Open a session
 	    Session session = sessionFactory.openSession();
 
@@ -59,18 +62,34 @@ public class UserDAOImpl implements UserDAO {
 	    CriteriaBuilder builder = session.getCriteriaBuilder();
 
 	    // UPDATED: Create CriteriaQuery
-	    CriteriaQuery<BlogUserDetail> criteria = builder.createQuery(BlogUserDetail.class);
+	    CriteriaQuery<User> criteria = builder.createQuery(User.class);
 
 	    // UPDATED: Specify criteria root
 	    criteria.from(BlogUserDetail.class);
 
 	    // UPDATED: Execute query
-	    List<BlogUserDetail> blogUserDetail = session.createQuery(criteria).getResultList();
+	    List<User>users = session.createQuery(criteria).getResultList();
 
 	    // Close the session
 	    session.close();
 
-	    return blogUserDetail;
+	    return users;
 	}
+
+
+
+
+
+@Transactional
+	public boolean isEmailValid(String email) {
+	List<User> list = userList();
+
+	for (User usersDetail : list) {
+		if (usersDetail.getEmail().equals(email)){
+			return false;// invalid user
+		}
+	}
+	return true;// valid user
+}
 
 }

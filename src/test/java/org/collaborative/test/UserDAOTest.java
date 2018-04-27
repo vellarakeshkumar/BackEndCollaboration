@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import org.collaborative.config.DataBaseConfiguration;
 import org.collaborative.dao.UserDAO;
 import org.collaborative.model.BlogUserDetail;
+import org.collaborative.model.User;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class UserDAOTest {
 
 
 	@Autowired
-	private static BlogUserDetail blogUserDetail;
+	private static User user;
 
 	@Autowired
 	private static UserDAO userDAO;
@@ -33,7 +34,7 @@ public static void initialize()
 	context.register(DataBaseConfiguration.class);
 	context.scan("org.collaborative.*");
 	context.refresh();
-	blogUserDetail = (BlogUserDetail) context.getBean("blogUserDetail");
+	user = (User) context.getBean("user");
 	userDAO = (UserDAO) context.getBean("userDAO");
 }
 
@@ -42,14 +43,13 @@ public static void initialize()
 @Ignore
 public void createUser()
 {
-	blogUserDetail.setFirstName("Rakesh");
-	blogUserDetail.setLastName("kumar");
-	blogUserDetail.setEmail("Rakes@gmail.com");
-	blogUserDetail.setPassword("pass");
-	blogUserDetail.setEnabled(true);
-	blogUserDetail.setOnline(true);
-	blogUserDetail.setPhone("656586");
-	boolean flag=userDAO.saveUser(blogUserDetail);
+	user.setFirstName("Rakesh");
+	user.setLastName("kumar");
+	user.setEmail("Rakes@gmail.com");
+	user.setPassword("pass");
+	user.setEnabled(true);
+	
+	boolean flag=userDAO.saveUser(user);
 	assertEquals("createUserTestCase", true, flag);
 
 }
