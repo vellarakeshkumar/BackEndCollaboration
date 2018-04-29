@@ -3,7 +3,7 @@ package org.collaborative.test;
 import static org.junit.Assert.assertEquals;
 import org.collaborative.config.DataBaseConfiguration;
 import org.collaborative.dao.UserDAO;
-import org.collaborative.model.BlogUserDetail;
+
 import org.collaborative.model.User;
 import org.junit.BeforeClass;
 import org.junit.Ignore;

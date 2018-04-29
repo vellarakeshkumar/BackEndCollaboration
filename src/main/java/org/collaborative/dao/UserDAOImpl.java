@@ -6,7 +6,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
-import org.collaborative.model.BlogUserDetail;
+
 import org.collaborative.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -31,6 +31,8 @@ public class UserDAOImpl implements UserDAO {
 	public boolean saveUser(User userDetail) {
 		
 		try {
+		userDetail.setEnabled(false);
+
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		session.saveOrUpdate(userDetail);
@@ -65,7 +67,7 @@ public class UserDAOImpl implements UserDAO {
 	    CriteriaQuery<User> criteria = builder.createQuery(User.class);
 
 	    // UPDATED: Specify criteria root
-	    criteria.from(BlogUserDetail.class);
+	    criteria.from(User.class);
 
 	    // UPDATED: Execute query
 	    List<User>users = session.createQuery(criteria).getResultList();
@@ -90,6 +92,18 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 	return true;// valid user
+}
+
+
+
+	public User updateUser(User user) {
+	user.setEnabled(true);
+	Session session=sessionFactory.openSession();
+	Transaction tx=session.beginTransaction();
+	session.update(user);
+	tx.commit();
+	session.clear();
+	return user;
 }
 
 }

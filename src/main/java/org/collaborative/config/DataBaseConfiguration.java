@@ -6,7 +6,8 @@ import javax.sql.DataSource;
 
 import org.collaborative.dao.UserDAO;
 import org.collaborative.dao.UserDAOImpl;
-import org.collaborative.model.BlogUserDetail;
+
+import org.collaborative.model.User;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		Properties properties = new Properties();
 		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
-		properties.put("hibernate.hbm2ddl.auto", "update");
+		properties.put("hibernate.hbm2ddl.auto", "create");
 		properties.put("hibernate.format_sql","true");
 		logger.info("========Hibernate Properties  has been set=========== ");
 		return properties;
@@ -55,7 +56,10 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		logger.info("========Hibernate Session Factory=========== ");
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		sessionBuilder.addAnnotatedClasses(BlogUserDetail.class);
+		sessionBuilder.addAnnotatedClasses(User.class);
+	
+		
+		
 		logger.info("========Hibernate SessionFactory Object created=========== ");
 		return sessionBuilder.buildSessionFactory();
 
@@ -83,14 +87,14 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
         //Using gmail       
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("sr.piyush94@gmail.com");
-        mailSender.setPassword("demo");
+        mailSender.setUsername("testneeda@gmail.com");
+        mailSender.setPassword("test");
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
         javaMailProperties.put("mail.smtp.auth", "true");
         javaMailProperties.put("mail.transport.protocol", "smtp");
         javaMailProperties.put("mail.debug", "true");
-       mailSender.setJavaMailProperties(javaMailProperties);
+        mailSender.setJavaMailProperties(javaMailProperties);
         return mailSender;
     }
 	

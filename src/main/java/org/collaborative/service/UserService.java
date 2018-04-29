@@ -10,6 +10,6 @@ public interface UserService {
 	
 	public List<User>userList();
 	public boolean isEmailValid(String email);
-
+	public User updateUser(User user);
 
 }

@@ -1,0 +1,9 @@
+<html>
+<body>
+Dear ${user}
+
+<p> Your account with Collaboration is created Successfully, Please use below URL to activate your account </p>
+<a href="${url}"> {url} </a>
+
+</body>
+</html>

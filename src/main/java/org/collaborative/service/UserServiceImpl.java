@@ -14,7 +14,6 @@ public class UserServiceImpl implements UserService {
 	UserDAO userDAO;
 
 	public boolean saveUser(User userDetail) {
-		// TODO Auto-generated method stub
 		return userDAO.saveUser(userDetail);
 	}
 
@@ -26,6 +25,11 @@ public class UserServiceImpl implements UserService {
 	public boolean isEmailValid(String email) {
 		// TODO Auto-generated method stub
 		return userDAO.isEmailValid(email);
+	}
+
+	public User updateUser(User user) {
+		// TODO Auto-generated method stub
+		return userDAO.updateUser(user);
 	}
 
 }

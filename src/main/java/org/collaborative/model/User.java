@@ -1,10 +1,13 @@
 package org.collaborative.model;
 
-import java.util.Base64;
-import java.util.Base64.Encoder;
-import java.util.Collection;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import javax.persistence.*;
+
+
+
+
 
 @Entity
 @Table(name = "user_account")
@@ -13,7 +16,16 @@ public class User {
     @Id
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	private Long id;
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_VERIFIED = "VERIFIED";
+    public void getUserToken() {
+    	 this.token = UUID.randomUUID().toString();
+         this.issuedDateTime = LocalDateTime.now();
+         this.expiredDateTime = this.issuedDateTime.plusDays(1);
+         this.status = STATUS_PENDING;
+	}
+
 
     private String firstName;
 
@@ -25,127 +37,93 @@ public class User {
     private String password;
 
     private boolean enabled;
+    
+    private String token;
+    private String status;
+    private LocalDateTime expiredDateTime;
+    private LocalDateTime issuedDateTime;
+    private LocalDateTime confirmedDateTime;
+    private String securityKey;
+    
+    public String getSecurityKey() {
+		return securityKey;
+	}
+	public void setSecurityKey(String securityKey) {
+		this.securityKey = securityKey;
+	}
+	@Transient
+    private String url;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public LocalDateTime getExpiredDateTime() {
+		return expiredDateTime;
+	}
+	public void setExpiredDateTime(LocalDateTime expiredDateTime) {
+		this.expiredDateTime = expiredDateTime;
+	}
+	public LocalDateTime getIssuedDateTime() {
+		return issuedDateTime;
+	}
+	public void setIssuedDateTime(LocalDateTime issuedDateTime) {
+		this.issuedDateTime = issuedDateTime;
+	}
+	public LocalDateTime getConfirmedDateTime() {
+		return confirmedDateTime;
+	}
+	public void setConfirmedDateTime(LocalDateTime confirmedDateTime) {
+		this.confirmedDateTime = confirmedDateTime;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    private boolean isUsing2FA;
-
-    private Encoder secret;
-
-    //
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
-
-    public User() {
-        super();
-        this.secret = Base64.getEncoder();
-        this.enabled = false;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(final String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(final String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(final String username) {
-        this.email = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(final Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(final boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isUsing2FA() {
-        return isUsing2FA;
-    }
-
-    public void setUsing2FA(boolean isUsing2FA) {
-        this.isUsing2FA = isUsing2FA;
-    }
-
-    public Encoder getSecret() {
-        return secret;
-    }
-
-    public void setSecret(Encoder secret) {
-        this.secret = secret;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((email == null) ? 0 : email.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User user = (User) obj;
-        if (!email.equals(user.email)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", password=").append(password).append(", enabled=").append(enabled).append(", isUsing2FA=")
-                .append(isUsing2FA).append(", secret=").append(secret).append(", roles=").append(roles).append("]");
-        return builder.toString();
-    }
-
-}
+  }
