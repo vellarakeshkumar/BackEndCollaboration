@@ -87,8 +87,8 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
         //Using gmail       
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("testneeda@gmail.com");
-        mailSender.setPassword("test");
+        mailSender.setUsername("s.preetti27@gmail.com");
+        mailSender.setPassword("lovesine");
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
         javaMailProperties.put("mail.smtp.auth", "true");

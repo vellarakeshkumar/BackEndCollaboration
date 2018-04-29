@@ -14,6 +14,8 @@ public interface UserDAO {
 	public boolean isEmailValid(String email);
 	public User updateUser(User user);
 	
+	public User getUserById(long id);
+	
 	
 	
 

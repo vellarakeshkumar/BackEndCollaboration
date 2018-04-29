@@ -1,5 +1,7 @@
 package org.collaborative.controller;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.collaborative.model.*;
 import org.collaborative.service.EmailServiceHelper;
@@ -65,13 +67,30 @@ public class RegistrationController {
     public ResponseEntity<?> verifyEmail(@RequestParam("li") String token ){
     	// decrytp
     	// using ; you should separte token and username
+    	List<String> response = new ArrayList<String>();
     	User user = Util.getUserDetailsFromToken(token);
-    	userService.updateUser(user);
-    	System.out.println("Verify service called");
-    	return new ResponseEntity<User>(user, HttpStatus.OK);
-    	
-    	
-    
-  	  
+    	if(user == null){
+    		response.add("Sorry, URL to verify user is not valid");
+    		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+    	}
+    	else{
+    		User tempUser = userService.getUserById(user.getId());
+    		if(tempUser == null){
+    			response.add("Sorry, URL to verify user is not valid");
+        		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+    		}
+    		else{
+    			if(!(user.getSecurityKey().equals(tempUser.getSecurityKey()))){
+    				response.add("Sorry, URL to verify user is not valid");
+    	    		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+    			}
+    			else{
+    				tempUser.setEnabled(true);
+    				userService.saveUser(tempUser);
+    				response.add("Your account is verifed Successfully");
+    	    		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+    			}
+    		}    		
+    	}  
     }
 }

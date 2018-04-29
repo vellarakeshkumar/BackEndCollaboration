@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
 		return userDAO.updateUser(user);
 	}
 
+	public User getUserById(long id) {
+		// TODO Auto-generated method stub
+		return userDAO.getUserById(id);
+	}
+
 }

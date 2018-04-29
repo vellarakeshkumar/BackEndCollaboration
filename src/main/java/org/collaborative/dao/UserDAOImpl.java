@@ -96,8 +96,7 @@ public class UserDAOImpl implements UserDAO {
 
 
 
-	public User updateUser(User user) {
-	user.setEnabled(true);
+	public User updateUser(User user) {	
 	Session session=sessionFactory.openSession();
 	Transaction tx=session.beginTransaction();
 	session.update(user);
@@ -105,5 +104,17 @@ public class UserDAOImpl implements UserDAO {
 	session.clear();
 	return user;
 }
+
+
+
+	public User getUserById(long id) {
+	Session session=sessionFactory.openSession();
+	Transaction tx=session.beginTransaction();
+	User userdt=(User)session.load(User.class, id);
+	tx.commit();
+	return userdt;
+		
+		
+	}
 
 }

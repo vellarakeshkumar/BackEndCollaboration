@@ -1,5 +1,6 @@
 package com.collaborative.util;
 
+import java.util.Base64;
 import java.util.UUID;
 
 import org.collaborative.model.User;
@@ -13,11 +14,15 @@ public class Util {
 	public static String generateToken(User user){
 		String token = user.getId() + "=" + user.getSecurityKey();
 		// encrypt
-		return Base32.encode(token.getBytes());
+		//return Base32.encode(token.getBytes());
+		return Base64.getEncoder().encodeToString(token.getBytes());
 	}
 	
 	public static String decryptToken(String token){
-		return Base32.decode(token).toString();
+		//return Base32.decode(token).toString();
+		byte[] decodedBytes = Base64.getDecoder().decode(token);
+		String decodedString = new String(decodedBytes);
+		return decodedString;
 	}
 	
 	public static User getUserDetailsFromToken(String token){

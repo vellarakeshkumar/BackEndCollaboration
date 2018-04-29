@@ -12,4 +12,5 @@ public interface UserService {
 	public boolean isEmailValid(String email);
 	public User updateUser(User user);
 
+	public User getUserById(long id);
 }
