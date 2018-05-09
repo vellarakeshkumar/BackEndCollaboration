@@ -11,15 +11,14 @@ public class Util {
 		return UUID.randomUUID().toString();
 	}
 	
+	
+	
 	public static String generateToken(User user){
 		String token = user.getId() + "=" + user.getSecurityKey();
-		// encrypt
-		//return Base32.encode(token.getBytes());
 		return Base64.getEncoder().encodeToString(token.getBytes());
 	}
 	
 	public static String decryptToken(String token){
-		//return Base32.decode(token).toString();
 		byte[] decodedBytes = Base64.getDecoder().decode(token);
 		String decodedString = new String(decodedBytes);
 		return decodedString;
@@ -30,13 +29,14 @@ public class Util {
 			User user = new User();
 			String decryptToken = decryptToken(token);
 			String[] data = decryptToken.split("=");
-			user.setId(Long.parseLong(data[0]));
-			user.setSecurityKey(data[1]);
+			user.setId(Long.parseLong(data[0]));//user.setId(1);
+			user.setSecurityKey(data[1]);//user.setSecurity(3e4343);
 			return user;
 		}
 		catch(Exception e){
 			return null;
 		}
 	}
+	
 
 }

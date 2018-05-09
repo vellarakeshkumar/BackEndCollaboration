@@ -3,6 +3,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.collaborative.model.*;
 import org.collaborative.service.EmailServiceHelper;
 import org.collaborative.service.UserService;
@@ -35,7 +37,7 @@ public class RegistrationController {
     
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ResponseEntity<?> registerUser(@RequestBody User user) {
-	
+    	LOGGER.info("registration start");
 		
 	 if (!userService.isEmailValid(user.getEmail()))
 	 {
@@ -53,7 +55,7 @@ public class RegistrationController {
 			// send email
 			
 			String token=Util.generateToken(user);
-			String url = "http://localhost:8180/BackEndCollaboration/verifyEmail?li=" + token;
+			String url = "http://localhost:8180/BackEndCollaboration/verifyEmail?li=" +token;
 			user.setUrl(url);
 			emailServiceHelper.sendVerificationEmail(user);
 			return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -65,32 +67,72 @@ public class RegistrationController {
     
     @RequestMapping(value = "verifyEmail", method = RequestMethod.GET)
     public ResponseEntity<?> verifyEmail(@RequestParam("li") String token ){
-    	// decrytp
-    	// using ; you should separte token and username
+    	
     	List<String> response = new ArrayList<String>();
-    	User user = Util.getUserDetailsFromToken(token);
+    	User user = Util.getUserDetailsFromToken(token); //select * from user where token="11c1726a-fe38-4111-be58-677c8f17010e";
     	if(user == null){
     		response.add("Sorry, URL to verify user is not valid");
-    		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+    		return new ResponseEntity<List<String>>(response, HttpStatus.BAD_REQUEST);
     	}
     	else{
-    		User tempUser = userService.getUserById(user.getId());
+    		User tempUser = userService.getUserById(user.getId());//select * from user where id=1;
     		if(tempUser == null){
     			response.add("Sorry, URL to verify user is not valid");
-        		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+        		return new ResponseEntity<List<String>>(response, HttpStatus.BAD_REQUEST);
     		}
     		else{
     			if(!(user.getSecurityKey().equals(tempUser.getSecurityKey()))){
     				response.add("Sorry, URL to verify user is not valid");
-    	    		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+    	    		return new ResponseEntity<List<String>>(response, HttpStatus.BAD_REQUEST);
     			}
+    		
+    			
     			else{
-    				tempUser.setEnabled(true);
-    				userService.saveUser(tempUser);
+    				tempUser.setConfirmedDateTime(LocalDateTime.now());
+    				tempUser.setStatus(User.STATUS_VERIFIED);
+    				userService.updateUser(tempUser);
     				response.add("Your account is verifed Successfully");
     	    		return new ResponseEntity<List<String>>(response, HttpStatus.OK);
     			}
     		}    		
     	}  
     }
+    
+    /************************Login***********************************/
+    @RequestMapping(value="/login",method=RequestMethod.POST)
+    public ResponseEntity<?> login(@RequestBody User user,HttpSession session){
+    	
+    	User validUser=userService.login(user);
+    	
+    	if(validUser==null){
+    		Error error=new Error("Login failed... Invalid email/password...");
+    	     return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
+    	}
+    	else{
+    		validUser.setEnabled(true);//
+    		userService.updateUser(validUser);//update user_account set enabled='true' where email='sr.piyush94@gmail.com';
+    		session.setAttribute("validUser", validUser);
+    		return new ResponseEntity<User>(validUser,HttpStatus.OK);
+    }
+    }
+    @RequestMapping(value="/logout",method=RequestMethod.PUT)
+    public ResponseEntity<?> logout(HttpSession session) {
+    	User user=(User)session.getAttribute("validUser");
+    	if(user==null) {
+    		Error error=new Error("Please login ...");
+    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
+    	
+    }
+    	
+    	user.setEnabled(false);
+    	userService.updateUser(user);
+    	session.removeAttribute("validUser");
+    	session.invalidate();
+    	return new ResponseEntity<User>(user,HttpStatus.OK);
+    }
+    
+    
+    
+    
+    
 }

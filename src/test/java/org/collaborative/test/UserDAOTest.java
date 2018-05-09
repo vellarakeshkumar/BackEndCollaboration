@@ -56,6 +56,7 @@ public void createUser()
 
 
 @Test
+@Ignore
 public void fetchAllUser()
 {
 	  /* List<BlogUserDetail> users = userDAO.userList();

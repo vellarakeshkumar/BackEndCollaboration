@@ -2,12 +2,7 @@ package org.collaborative.model;
 
 import java.time.LocalDateTime;
 import java.util.*;
-
 import javax.persistence.*;
-
-
-
-
 
 @Entity
 @Table(name = "user_account")
@@ -19,31 +14,44 @@ public class User {
 	private Long id;
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_VERIFIED = "VERIFIED";
-    public void getUserToken() {
-    	 this.token = UUID.randomUUID().toString();
-         this.issuedDateTime = LocalDateTime.now();
-         this.expiredDateTime = this.issuedDateTime.plusDays(1);
-         this.status = STATUS_PENDING;
-	}
-
-
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    @Column(length = 60)
     private String password;
-
     private boolean enabled;
-    
-    private String token;
     private String status;
     private LocalDateTime expiredDateTime;
     private LocalDateTime issuedDateTime;
     private LocalDateTime confirmedDateTime;
     private String securityKey;
+    private String firstName;
+	private String lastName;
+	@Column(length = 60)
+    private String email;
+	private String role;
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+	public static String getStatusPending() {
+		return STATUS_PENDING;
+	}
+
+	public static String getStatusVerified() {
+		return STATUS_VERIFIED;
+	}
+	
+	@Transient// Transient data members never get persist
+	private String url;
+    
+    public void getUserToken() {
+   	 this.securityKey = UUID.randomUUID().toString();
+     this.issuedDateTime = LocalDateTime.now();
+     this.expiredDateTime = this.issuedDateTime.plusDays(1);
+     this.status = STATUS_PENDING;
+	}
     
     public String getSecurityKey() {
 		return securityKey;
@@ -51,8 +59,7 @@ public class User {
 	public void setSecurityKey(String securityKey) {
 		this.securityKey = securityKey;
 	}
-	@Transient
-    private String url;
+
 	public Long getId() {
 		return id;
 	}
@@ -89,12 +96,7 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
+	
 	public String getStatus() {
 		return status;
 	}

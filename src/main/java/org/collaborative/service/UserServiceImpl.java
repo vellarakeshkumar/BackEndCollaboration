@@ -18,23 +18,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<User> userList() {
-		// TODO Auto-generated method stub
+	
 		return userDAO.userList();
 	}
 
 	public boolean isEmailValid(String email) {
-		// TODO Auto-generated method stub
+	
 		return userDAO.isEmailValid(email);
 	}
 
 	public User updateUser(User user) {
-		// TODO Auto-generated method stub
+		
 		return userDAO.updateUser(user);
 	}
 
 	public User getUserById(long id) {
-		// TODO Auto-generated method stub
+		
 		return userDAO.getUserById(id);
+	}
+
+	public User login(User user) {
+	
+		return userDAO.login(user);
 	}
 
 }

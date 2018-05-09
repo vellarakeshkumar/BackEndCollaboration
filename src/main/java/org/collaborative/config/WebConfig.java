@@ -12,7 +12,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 @Configuration
 @EnableWebMvc //<mvc:annotation-driven>
@@ -36,12 +35,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return multipartResolver;
 	}
 	
-	@Bean
+/*	@Bean
     public VelocityConfigurer velocityConfig() {
         VelocityConfigurer velocityConfigurer = new VelocityConfigurer();
         velocityConfigurer.setResourceLoaderPath("/");
         return velocityConfigurer;
-    }
+    }*/
 	
 	@Bean(name = "velocityEngine")
 	public VelocityEngineFactoryBean velocityEngineFactoryBean() {

@@ -20,14 +20,15 @@ public class EmailServiceHelper {
 	@Autowired
 	private VelocityEngine velocityEngine;
 	
+	@SuppressWarnings("deprecation")
 	public void sendVerificationEmail(User user){
 		SimpleMailMessage message = new SimpleMailMessage(); 
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("user", user.getFirstName() + " " + user.getLastName());
+		data.put("user", user.getFirstName() + " " + user.getLastName());//key=user value=piyush sharma
 		data.put("url", user.getUrl());
 		String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "emailTemplates/verifyEmail.vm", data);
-        message.setTo(user.getEmail()); 
-        message.setSubject("Verify Email"); 
+        message.setTo(user.getEmail()); //sr.piyush94@gmail.com
+        message.setSubject("Verify Email"); //Verfiy Email
         message.setText(body);
         emailSender.send(message);
 	}

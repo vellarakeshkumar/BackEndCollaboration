@@ -6,8 +6,7 @@ import javax.sql.DataSource;
 
 import org.collaborative.dao.UserDAO;
 import org.collaborative.dao.UserDAOImpl;
-
-import org.collaborative.model.User;
+import org.collaborative.model.*;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +17,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
+@EnableTransactionManagement
 public class DataBaseConfiguration {
 	
 	
@@ -43,7 +43,7 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		Properties properties = new Properties();
 		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
-		properties.put("hibernate.hbm2ddl.auto", "create");
+		properties.put("hibernate.hbm2ddl.auto", "update");
 		properties.put("hibernate.format_sql","true");
 		logger.info("========Hibernate Properties  has been set=========== ");
 		return properties;
@@ -57,9 +57,8 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.addProperties(getHibernateProperties());
 		sessionBuilder.addAnnotatedClasses(User.class);
+		sessionBuilder.addAnnotatedClasses(Post.class);
 	
-		
-		
 		logger.info("========Hibernate SessionFactory Object created=========== ");
 		return sessionBuilder.buildSessionFactory();
 
@@ -81,8 +80,8 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 	}
 	
 	
-	@Bean
-    public JavaMailSender getMailSender(){
+		@Bean
+    	public JavaMailSender getMailSender(){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         //Using gmail       
         mailSender.setHost("smtp.gmail.com");
