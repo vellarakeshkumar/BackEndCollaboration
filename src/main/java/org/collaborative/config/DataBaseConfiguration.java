@@ -31,8 +31,8 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
 		dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
-		dataSource.setUsername("collab_user");
-		dataSource.setPassword("1234");
+		dataSource.setUsername("rakesh");
+		dataSource.setPassword("pass");
 		logger.info("Data Base Connected ");
 		return dataSource;
 
@@ -58,6 +58,9 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
 		sessionBuilder.addProperties(getHibernateProperties());
 		sessionBuilder.addAnnotatedClasses(User.class);
 		sessionBuilder.addAnnotatedClasses(Post.class);
+		sessionBuilder.addAnnotatedClass(Notification.class);
+		sessionBuilder.addAnnotatedClass(PostLikes.class);
+		sessionBuilder.addAnnotatedClass(Comment.class);
 	
 		logger.info("========Hibernate SessionFactory Object created=========== ");
 		return sessionBuilder.buildSessionFactory();
@@ -86,8 +89,8 @@ Logger logger =LoggerFactory.getLogger(DataBaseConfiguration.class);
         //Using gmail       
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("s.preetti27@gmail.com");
-        mailSender.setPassword("lovesine");
+        mailSender.setUsername("phan.yarl@gmail.com");
+        mailSender.setPassword("Rational@1");
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
         javaMailProperties.put("mail.smtp.auth", "true");
