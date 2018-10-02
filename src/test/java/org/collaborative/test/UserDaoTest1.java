@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-
+@Ignore
 @ComponentScan(basePackages ={ "org.collaborative" })
 public class UserDaoTest1{
 
@@ -26,6 +26,7 @@ public class UserDaoTest1{
 
 @SuppressWarnings("resource")
 @BeforeClass
+@Ignore
 public static void initialize()
 {
 	AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -38,6 +39,7 @@ public static void initialize()
 
 
 @Test
+@Ignore
 public void createUser()
 {
 	user.setFirstName("piyush");

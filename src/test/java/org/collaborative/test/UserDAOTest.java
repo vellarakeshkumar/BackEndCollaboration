@@ -13,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ComponentScan;
 
 
+@Ignore
 @ComponentScan(basePackages ={ "org.collaborative" })
 public class UserDAOTest {
 
@@ -26,7 +27,8 @@ public class UserDAOTest {
 
 @SuppressWarnings("resource")
 @BeforeClass
-public static void initialize()
+@Ignore
+static void initialize()
 {
 	AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 	context.register(DataBaseConfiguration.class);
@@ -38,6 +40,7 @@ public static void initialize()
 
 
 @Test
+@Ignore
 public void createUser()
 {
 	user.setFirstName("piyush");

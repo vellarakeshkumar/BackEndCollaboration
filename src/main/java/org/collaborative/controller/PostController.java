@@ -96,7 +96,7 @@ public class PostController {
 	@RequestMapping(value = "/viewPendingPosts", method = RequestMethod.GET)
 	public ResponseEntity<?> viewPendingPosts(HttpSession session) {
 		log.info("ViewPendingPosts: fetch all pending Post details  ");
-		//Integer userId = (Integer) session.getAttribute("userId");
+		
 		User user = (User) session.getAttribute("validUser");
 		if (user == null) {
 			log.info("ViewPendingPosts: user session details not found  ");
